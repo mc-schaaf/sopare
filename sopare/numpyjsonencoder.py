@@ -21,6 +21,7 @@ import base64
 import json
 import numpy
 
+
 class numpyjsonencoder(json.JSONEncoder):
 
     def default(self, obj):
@@ -33,9 +34,16 @@ class numpyjsonencoder(json.JSONEncoder):
                     obj_data = cont_obj.data
                 else:
                     raise Exception("numpyjsonencoder err: C_CONTIGUOUS not present in object!")
-            data_base64 = base64.b64encode(obj_data)
-            return dict(__ndarray__= data_base64, dtype = str(obj.dtype), shape = obj.shape)
-        return json.JSONEncoder(self, obj)
+
+            base64_bytes = base64.b64encode(obj_data)
+            data_base64 = base64_bytes.decode('utf-8')
+            return dict(__ndarray__=data_base64,
+                        dtype=str(obj.dtype),
+                        shape=obj.shape)
+        elif isinstance(obj, numpy.integer):
+            return int(obj)
+
+        return json.JSONEncoder.default(self, obj)
 
 def numpyjsonhook(obj):
     if isinstance(obj, dict) and '__ndarray__' in obj:

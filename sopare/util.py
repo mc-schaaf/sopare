@@ -135,7 +135,7 @@ class util:
     @staticmethod
     def writeDICT(json_data):
         with open("dict/dict.json", 'w') as json_file:
-            json.dump(json_data, json_file)
+            json.dump(json_data, json_file, cls=sopare.numpyjsonencoder.numpyjsonencoder)
         json_file.close()
 
     @staticmethod
