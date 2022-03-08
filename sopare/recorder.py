@@ -77,7 +77,7 @@ class recorder():
         self.buffering.flush('end of file')
         self.logger.info("* done ")
         self.stop()
-        sys.exit()
+        # sys.exit()
 
     def recording(self):
         self.stream = self.audio_factory.open(self.cfg.getintoption('stream', 'SAMPLE_RATE'))
@@ -96,7 +96,7 @@ class recorder():
             except IOError as e:
                 self.logger.warning("stream read error "+str(e))
         self.stop()
-        sys.exit()
+        # sys.exit()
 
     def stop(self):
         self.logger.info("stop endless recording")
